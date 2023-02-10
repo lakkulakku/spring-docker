@@ -42,7 +42,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            docker stop $(docker ps -a -q) 
-            docker rm $(docker ps -a -q) 
-            docker pull lakkulakku/spring-docker
-            docker run -d -p 8080:8080 --name spring-docker lakkulakku/spring-docker
+            sudo docker stop $(docker ps -a -q) 
+            sudo docker rm $(docker ps -a -q) 
+            sudo docker pull lakkulakku/spring-docker
+            sudo docker run -d -p 8080:8080 --name spring-docker lakkulakku/spring-docker
