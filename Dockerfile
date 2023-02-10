@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11
+FROM openjdk:17-alpine
 
 COPY ./build/libs/spring-docker-v1.0.0-SNAPSHOT.jar app.jar
 
