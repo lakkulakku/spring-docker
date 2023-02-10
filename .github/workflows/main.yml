@@ -43,6 +43,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker stop $(sudo docker ps -a -q)  
-            sudo docker rm $(sudo docker ps -a -q -p) 
+            sudo docker rm $(sudo docker ps -a -q)
             sudo docker pull lakkulakku/spring-docker
             sudo docker run -d -p 8080:8080 --name spring-docker lakkulakku/spring-docker
