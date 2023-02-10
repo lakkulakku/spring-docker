@@ -1,23 +1,39 @@
-name: Build a Docker image and Push it to ACR
-
+name: Backend CD
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-  workflow_dispatch:
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: azure/docker-login@v1
+      - name: Repository Checkout
+        uses: actions/checkout@v3
+
+      - name: Application Build
+        run: ./gradlew build
+
+      - name: Docker Image Build
+        run: docker build -t lakkulakku/spring-docker .
+
+      - name: Docker Hub Login
+        uses: docker/login-action@v2
         with:
-           login-server: ${{ secrets.REGIS_SERVER }}
-           username: ${{ secrets.RESIG_USERNAME }}
-           password: ${{ secrets.RESIG_PASSWORD }}
-      - run: |
-          docker build . -t "${{ secrets.REGIS_SERVER }}/DeleteMe_LE_Ju0:${{ github.sha }}"
-          docker push "${{ secrets.REGIS_SERVER }}/DeleteMe_LE_Ju0:${{ github.sha }}"
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker Hub Publish
+        run: docker push lakkulakku/spring-docker
+
+      - name: WAS Instance Connect and Application running
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            docker stop $(docker ps -a -q) 
+            docker rm $(docker ps -a -q) 
+            docker pull lakkulakku/spring-docker
+            docker run -d -p 8080:8080 --name spring-docker lakkulakku/spring-docker

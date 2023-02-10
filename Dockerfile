@@ -1,25 +1,5 @@
-#
-# Build stage
-#
+FROM adoptopenjdk/openjdk11
 
-FROM openjdk:17-alpine AS build
+COPY ./build/libs/spring-docker-v1.0.0-SNAPSHOT.jar app.jar
 
-WORKDIR usr/src/app
-
-COPY . ./
-
-RUN mvn clean package
-
-#
-# Package stage
-#
-
-FROM openjdk:17-jre-slim
-
-ARG JAR_NAME="spring-docker"
-
-WORKDIR /usr/src/app
-
-COPY --from=build /usr/src/app/target/${JAR_NAME}.jar ./app.jar
-
-CMD ["java","-jar", "./app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
