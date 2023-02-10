@@ -9,7 +9,10 @@ jobs:
     steps:
       - name: Repository Checkout
         uses: actions/checkout@v3
-
+        
+      - name: Grant permission for gradlew
+        run: chmod +x ./gradlew
+    
       - name: Application Build
         run: ./gradlew build
 
