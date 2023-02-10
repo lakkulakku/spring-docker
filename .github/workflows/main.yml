@@ -19,5 +19,5 @@ jobs:
            username: ${{ secrets.RESIG_USERNAME }}
            password: ${{ secrets.RESIG_PASSWORD }}
       - run: |
-          docker build . -t ${{ secrets.REGIS_SERVER }}/knowledgefactory:${{ github.sha }}
-          docker push ${{ secrets.REGIS_SERVER }}/knowledgefactory:${{ github.sha }}
+          docker build . -t ${{ secrets.REGIS_SERVER }}/DeleteMe_LE_Ju0:${{ github.sha }}
+          docker push ${{ secrets.REGIS_SERVER }}/DeleteMe_LE_Ju0:${{ github.sha }}
