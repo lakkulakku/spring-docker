@@ -2,7 +2,7 @@
 # Build stage
 #
 
-FROM openjdk:17 AS build
+FROM openjdk:17-oracle AS build
 
 WORKDIR usr/src/app
 
@@ -14,7 +14,7 @@ RUN mvn clean package
 # Package stage
 #
 
-FROM openjdk:17-jre-slim
+FROM openjdk:17-jdk-slim
 
 ARG JAR_NAME="spring-docker"
 
