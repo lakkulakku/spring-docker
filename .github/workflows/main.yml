@@ -46,11 +46,16 @@ jobs:
           #  sudo docker rm $(sudo docker ps -a -q) &&\
           #  sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker &&\
           #  sudo docker run -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker
-       
-      - name: Application Run For Docker
-        shell: bash
+    
+      - name: Docker stop
+        if: always()
+        run: ${{ secrets.SSH_PASSWORD }} | sudo -S docker stop $(sudo docker ps -a -q)
+        
+      - name: Docker rm
+        if: always()
+        run: ${{ secrets.SSH_PASSWORD }} | sudo -S docker rm $(sudo docker ps -a -q)
+        
+      - name: docker pull and run
         run: |
-          echo "${{ secrets.SSH_PASSWORD }} | sudo -S docker stop $(sudo docker ps -a -q) &&\
-          sudo docker rm $(sudo docker ps -a -q) &&\
-          sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker &&\
-          sudo docker run -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker"
+          ${{ secrets.SSH_PASSWORD }} | sudo -S docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker &&\
+          sudo docker run -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker
