@@ -51,6 +51,12 @@ jobs:
           script: |
             dList=$(echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a -q)
             
+            echo "-n $dList"
+            echo "-z $dList"
+            echo "$dList"
+            echo "$dList == ''"
+            
+            
             if [ -n $dList ]
             then
               echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker stop $dList &&\
