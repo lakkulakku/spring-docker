@@ -49,15 +49,10 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
+            dCount=$(echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a | wc -l)
             dList=$(echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a -q)
            
-            if [ !$dList ]
-            then
-              echo "in"
-            fi
-            
-            
-            if [ !$dList ]
+            if [ $dCount -ne 1 ]
             then
               echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker stop $dList &&\
               echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker rm $dList
