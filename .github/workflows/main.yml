@@ -53,10 +53,14 @@ jobs:
         shell: bash
         run: |
           count=$(echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a | wc -l)
-          if [ echo $count -ne 1 ]
+          echo "count is : " + $count
+          if [ $count -ne 1 ]
           then
+            echo "if in"
             sudo docker stop $(sudo docker ps -a -q) &&\
             sudo docker rm $(sudo docker ps -a -q)
           fi
+          
+          echo "if end"
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker &&\
           sudo docker run -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker
