@@ -52,8 +52,8 @@ jobs:
       - name: Docker
         shell: bash
         run: |
-          count=`${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a | wc -l`
-          if [ echo ${count} -ne 1 ]
+          count=$(echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a | wc -l)
+          if [ echo $count -ne 1 ]
           then
             sudo docker stop $(sudo docker ps -a -q) &&\
             sudo docker rm $(sudo docker ps -a -q) &&\
