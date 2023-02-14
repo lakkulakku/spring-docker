@@ -59,19 +59,19 @@ jobs:
             
             if [ -z $dList ]
             then
-              echo "in 1"
+              echo "in 2"
             fi
             
             
             if [ $dList ]
             then
-              echo "in 1"
+              echo "in 3"
             fi
             
             
             if [ $dList != "" ]
             then
-              echo "in 1"
+              echo "in 4"
             fi
             
             if [ -n $dList ]
