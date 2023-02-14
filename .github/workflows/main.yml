@@ -50,6 +50,12 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             dList=$(echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a -q)
+           
+            if [ !$dList ]
+            then
+              echo "in"
+            fi
+            
             
             if [ !$dList ]
             then
