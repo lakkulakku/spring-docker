@@ -59,4 +59,4 @@ jobs:
             sudo docker rm $(sudo docker ps -a -q)
           fi
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker &&\
-          sudo docker run -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/spring-dockerer
+          sudo docker run -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker
