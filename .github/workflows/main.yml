@@ -69,7 +69,7 @@ jobs:
             fi
             
             
-            if [ $dList != "" ]
+            if [ $dList -ne "" ]
             then
               echo "in 4"
             fi
