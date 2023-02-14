@@ -41,7 +41,7 @@ jobs:
       - name: Repository Checkout
         uses: actions/checkout@v3        
 
-      - name: WAS Instance Connect
+      - name: WAS Instance Connect And Docker Run
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -50,16 +50,11 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             count=$(echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker ps -a | wc -l)
-            echo "count is : $count"
-            echo $count -ne 1
-
             if [ $count -ne 1 ]
             then
               echo "if in"
               sudo docker stop $(sudo docker ps -a -q) &&\
               sudo docker rm $(sudo docker ps -a -q)
             fi
-
-            echo "if end"
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker &&\
             sudo docker run -d -p 8080:8080 --name spring-docker ${{ secrets.DOCKERHUB_USERNAME }}/spring-docker
